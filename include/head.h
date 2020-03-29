@@ -15,6 +15,7 @@ Assignment 3
 typedef struct node{
   char word[30];
   int freq;
+  float avg;
   struct node *left;
   struct node *right;
 }Node;
@@ -30,7 +31,7 @@ typedef struct instanceVars{
 Instance* initInstance();
 char* userInput(char* input);
 int** OptimalBST(Node **array, int n);
-Node *buildTree(int *re, Node **array, int size, int i, int j);
+Node *buildTree(int *re, int *c, Node **array, int size, int i, int j);
 void searchBST( char *input, Node *tree);
 //functions to load the data
 void getData(Instance* vars);

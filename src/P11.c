@@ -54,7 +54,7 @@ int** OptimalBST(Node **array, int n)
     return re;
 }
 
-Node *buildTree(int *re, Node **array, int size, int i, int j) {
+Node *buildTree(int *re, int *c, Node **array, int size, int i, int j) {
   if (i > size) {
     printf("oof\n");
   }
@@ -63,6 +63,7 @@ Node *buildTree(int *re, Node **array, int size, int i, int j) {
   }
   if (i==j) {
     Node *retu = array[re[i*size + j]];
+    retu->avg = c[i*size + j];
     retu->left = NULL;
     retu->right = NULL;
     return retu;
@@ -71,9 +72,10 @@ Node *buildTree(int *re, Node **array, int size, int i, int j) {
   int index = re[i*size + j];
   //printf("%d\n", index);
   Node *root = array[index];
+  root->avg = (float)(c[i*size + j])/2045.0f;
 
-  root->left = buildTree(re, array, size, i, index-1);
-  root->right = buildTree(re, array, size, index+1, j);
+  root->left = buildTree(re, c, array, size, i, index-1);
+  root->right = buildTree(re, c, array, size, index+1, j);
 
   return root;
 }
@@ -83,14 +85,14 @@ void searchBST( char *input, Node *tree) {
     return;
   }
   int cmp = strcmp(input, tree->word);
-  printf("Compared with %s (6.15), ", tree->word);
+  printf("Compared with %s (%.2f), ", tree->word, tree->avg);
   if ( cmp == 0) {
-    printf("found\n");
+    printf("found.\n");
   } else if ( cmp > 0 ) {
-    printf("go right subtree\n");
+    printf("go right subtree.\n");
     searchBST(input, tree->right);
   } else {
-    printf("go left subtree\n");
+    printf("go left subtree.\n");
     searchBST(input, tree->left);
   }
 }

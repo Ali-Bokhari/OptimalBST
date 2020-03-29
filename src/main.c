@@ -160,8 +160,9 @@ int main(int argc, char** argv){
     qsort(vars->array1, vars->arraySize1, sizeof(Node*), cmpfunc);
     //printNodes(vars->array1, vars->arraySize1);
     int **cost = OptimalBST(vars->array1, vars->arraySize1);
+    //printf("%d\n", cost[0][0 + vars->arraySize1 -1]);
 
-    vars->tree = buildTree(cost[1], vars->array1, vars->arraySize1, 0, vars->arraySize1 -1);
+    vars->tree = buildTree(cost[1], cost[0], vars->array1, vars->arraySize1, 0, vars->arraySize1 -1);
     //printNodes(vars->array1, vars->arraySize1);
     for(;;){
         printf("1: Question 1: OptimalBST dynamic programming\n");
@@ -188,7 +189,7 @@ int main(int argc, char** argv){
             printf("Invalid input, enter number between 1-7.\n");
             printf("------------------------------------\n");
         }
-        free(vars->array1);
+        //free(vars->array1);
         //free(vars->array2);
         //getData(vars);
     }
