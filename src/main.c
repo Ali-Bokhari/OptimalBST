@@ -63,9 +63,9 @@ void getData(Instance* vars){
           x--;
         }
     }
-    for(int k = 0; k<x; k++){
+    /*for(int k = 0; k<x; k++){
       array[k]->prob = (array[k]->freq)/2045;
-    }
+    }*/
     fclose(filePointer);
     vars->array1 = array;
     vars->arraySize1 = x;
@@ -73,17 +73,18 @@ void getData(Instance* vars){
 
 double o1(Instance* vars){
     double start = 0, stop = 0, timeSpent = 0;
-    int totalAnagrams = 0;
+    //int totalAnagrams = 0;
     char* anag = calloc(256, sizeof(char)*256);
-    printf("Input String to search for anagrams:\n");
+    printf("Enter a key:\n");
     anag = userInput(anag);
-    printf("Calculating...\n");
+    //printf("Calculating...\n");
     start = clock();
     //totalAnagrams = countAnagram(vars->array1, vars->arraySize1, anag);
+    searchBST(anag, vars->tree);
     stop = clock();
     timeSpent = (double)(stop - start)/CLOCKS_PER_SEC;
     printf("------------------------------------\n");
-    printf("Number of anagrams: %d\n", totalAnagrams);
+    //printf("Number of anagrams: %d\n", totalAnagrams);
     printf("Execution time: %f second\n", timeSpent);
     printf("------------------------------------\n");
     free(anag);
@@ -124,40 +125,73 @@ void print2D(int *arr, int size) {
   }
 }
 
+void print2DUtil(Node *root, int space)
+{
+    // Base case
+    if (root == NULL)
+        return;
+
+    // Increase distance between levels
+    space += 10;
+
+    // Process right child first
+    print2DUtil(root->right, space);
+
+    // Print current node after space
+    // count
+    printf("\n");
+    for (int i = 10; i < space; i++)
+        printf(" ");
+    printf("%d\n", root->freq);
+
+    // Process left child
+    print2DUtil(root->left, space);
+}
+
+int cmpfunc (const void * a, const void * b) {
+   return strcmp((*(Node**)a)->word, (*(Node**)b)->word);
+}
+
 int main(int argc, char** argv){
-    //char* menu = calloc(256, sizeof(char)*256);
+    char* menu = calloc(256, sizeof(char)*256);
     Instance* vars = initInstance();
 
     getData(vars);
-    // for(;;){
-    //     printf("1: Brute force anagram\n");
-    //     printf("2: Presort anagram\n");
-    //     //printf("5: Compare inversion algorithms\n");
-    //     //printf("6: Compare convex hull algorithms\n");
-    //     printf("6: Exit\n");
-    //     printf("Select option:\n");
-    //     menu = userInput(menu);
-    //
-    //     int num = strtol(menu, NULL, 10);
-    //
-    //     if(num == 1){
-    //         o1(vars);
-    //     }else if(num == 2){
-    //         o2(vars);
-    //     }else if(num == 3){
-    //         free(vars->array1);
-    //         free(vars);
-    //         free(menu);
-    //         exit(0);
-    //     }else{
-    //         printf("------------------------------------\n");
-    //         printf("Invalid input, enter number between 1-7.\n");
-    //         printf("------------------------------------\n");
-    //     }
-    //     free(vars->array1);
-    //     free(vars->array2);
-    //     getData(vars);
-    // }
+    qsort(vars->array1, vars->arraySize1, sizeof(Node*), cmpfunc);
+    //printNodes(vars->array1, vars->arraySize1);
+    int **cost = OptimalBST(vars->array1, vars->arraySize1);
+
+    vars->tree = buildTree(cost[1], vars->array1, vars->arraySize1, 0, vars->arraySize1 -1);
+    //printNodes(vars->array1, vars->arraySize1);
+    for(;;){
+        printf("1: Question 1: OptimalBST dynamic programming\n");
+        printf("2: Question 2\n");
+        //printf("5: Compare inversion algorithms\n");
+        //printf("6: Compare convex hull algorithms\n");
+        printf("3: Exit\n");
+        printf("Select option:\n");
+        menu = userInput(menu);
+
+        int num = strtol(menu, NULL, 10);
+
+        if(num == 1){
+            o1(vars);
+        }else if(num == 2){
+            o2(vars);
+        }else if(num == 3){
+            free(vars->array1);
+            free(vars);
+            free(menu);
+            exit(0);
+        }else{
+            printf("------------------------------------\n");
+            printf("Invalid input, enter number between 1-7.\n");
+            printf("------------------------------------\n");
+        }
+        free(vars->array1);
+        //free(vars->array2);
+        //getData(vars);
+    }
 
     //printNodes(vars->array1, vars->arraySize1);
     // Node key1 = {"A", 213, 0};
@@ -174,11 +208,13 @@ int main(int argc, char** argv){
     //int keys[] = {4, 5, 1, 6, 4};
     //int freq[] = {213, 20, 547, 100, 120};
     //int n = sizeof(keys)/sizeof(keys[0]);
-    int **cost = optimalSearchTree(vars->array1, vars->arraySize1);
+
 
     //printNodes(vars->array1, vars->arraySize1);
-    printf("%s\n", vars->array1[cost[1][0 + vars->arraySize1 - 1]]->word);
+    //printf("%s\n", vars->array1[cost[1][0 + vars->arraySize1 - 1]]->word);
     //print2D(cost[1], 5);
+    //vars->tree = buildTree(cost[1], vars->array1, vars->arraySize1, 0, vars->arraySize1 -1);
+    //print2DUtil(root, 0);
     //printf("Cost of Optimal BST is %d\n", optimalSearchTree(keys, freq, n));
     //optimalSearchTree2(keys, freq, n);
     //int tmp = re[1][0][(vars->arraySize1) - 1];

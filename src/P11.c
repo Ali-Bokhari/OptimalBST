@@ -15,7 +15,7 @@ int sum(Node **array, int i, int j)
     return s;
 }
 
-int** optimalSearchTree(Node **array, int n)
+int** OptimalBST(Node **array, int n)
 {
     int *c = calloc(n*n, sizeof(int));
     int *r = calloc(n*n, sizeof(int));
@@ -41,6 +41,7 @@ int** optimalSearchTree(Node **array, int n)
 
                if (cost < c[i*n + j]) {
                  r[i*n + j] = k;
+                 //printf("%s\n", array[k]->word);
                  c[i*n + j] = cost;
                }
             }
@@ -51,6 +52,47 @@ int** optimalSearchTree(Node **array, int n)
     re[0]=c;
     re[1]=r;
     return re;
+}
+
+Node *buildTree(int *re, Node **array, int size, int i, int j) {
+  if (i > size) {
+    printf("oof\n");
+  }
+  if (i > j) {
+    return NULL;
+  }
+  if (i==j) {
+    Node *retu = array[re[i*size + j]];
+    retu->left = NULL;
+    retu->right = NULL;
+    return retu;
+  }
+
+  int index = re[i*size + j];
+  //printf("%d\n", index);
+  Node *root = array[index];
+
+  root->left = buildTree(re, array, size, i, index-1);
+  root->right = buildTree(re, array, size, index+1, j);
+
+  return root;
+}
+
+void searchBST( char *input, Node *tree) {
+  if (!input || !tree) {
+    return;
+  }
+  int cmp = strcmp(input, tree->word);
+  printf("Compared with %s (6.15), ", tree->word);
+  if ( cmp == 0) {
+    printf("found\n");
+  } else if ( cmp > 0 ) {
+    printf("go right subtree\n");
+    searchBST(input, tree->right);
+  } else {
+    printf("go left subtree\n");
+    searchBST(input, tree->left);
+  }
 }
 
 // int sum(int freq[], int i, int j)

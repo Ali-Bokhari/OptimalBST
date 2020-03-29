@@ -15,22 +15,23 @@ Assignment 3
 typedef struct node{
   char word[30];
   int freq;
-  double prob;
+  struct node *left;
+  struct node *right;
 }Node;
 
 typedef struct instanceVars{
     char fileName[99];
     Node** array1;
     int arraySize1;
-    char *word[30];
-    int *freq;
+    Node *tree;
 }Instance;
 
 //helper fucnctions
 Instance* initInstance();
 char* userInput(char* input);
-int*** OptimalBST(Node **array, int n);
-int** optimalSearchTree(Node **array, int n);
+int** OptimalBST(Node **array, int n);
+Node *buildTree(int *re, Node **array, int size, int i, int j);
+void searchBST( char *input, Node *tree);
 //functions to load the data
 void getData(Instance* vars);
 void loadDataP(Instance* vars);
