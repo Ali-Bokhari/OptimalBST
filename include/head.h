@@ -1,8 +1,8 @@
 /*
 Name: Ali Bokhari
 ID: 0970498 / abokhari
-Date: March 3, 2020
-Assignment 3
+Date: March 21, 2020
+Assignment 4
 */
 
 #include <string.h>
@@ -10,7 +10,6 @@ Assignment 3
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
-#include <math.h>
 
 typedef struct node{
   char word[30];
@@ -25,6 +24,7 @@ typedef struct instanceVars{
     Node** array1;
     int arraySize1;
     Node *tree;
+    Node *tree2;
 }Instance;
 
 //helper fucnctions
@@ -32,7 +32,9 @@ Instance* initInstance();
 char* userInput(char* input);
 int** OptimalBST(Node **array, int n);
 Node *buildTree(int *re, int *c, Node **array, int size, int i, int j);
+Node *buildTreeGreedy(Node **array, int i, int j);
 void searchBST( char *input, Node *tree);
+void searchBSTGreedy( char *input, Node *tree);
 //functions to load the data
 void getData(Instance* vars);
 void loadDataP(Instance* vars);

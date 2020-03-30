@@ -2,11 +2,11 @@ CC = gcc
 CFLAGS = -Wall -g -Iinclude
 
 all:
-	$(CC)  $(CFLAGS) src/*.c  -o bin/a3 -lm
-	make a3
+	$(CC)  $(CFLAGS) src/*.c  -o bin/a4
+	make a4
 
-a3:
-	./bin/a3
+a4:
+	./bin/a4
 
 clean:
-	rm bin/a3
+	rm bin/a4

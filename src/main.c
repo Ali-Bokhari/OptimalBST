@@ -2,7 +2,7 @@
 Name: Ali Bokhari
 ID: 0970498 / abokhari
 Date: March 22, 2020
-Assignment 3
+Assignment 4
 */
 
 #include "head.h"
@@ -75,7 +75,7 @@ double o1(Instance* vars){
     double start = 0, stop = 0, timeSpent = 0;
     //int totalAnagrams = 0;
     char* anag = calloc(256, sizeof(char)*256);
-    printf("Enter a key:\n");
+    printf("Enter a key:  ");
     anag = userInput(anag);
     //printf("Calculating...\n");
     start = clock();
@@ -92,27 +92,19 @@ double o1(Instance* vars){
 }
 
 double o2(Instance* vars){
-    double start = 0, stop = 0, timeSpent1 = 0, timeSpent2 = 0;
-    int totalInversion = 0;
-    char* anag = calloc(256, sizeof(char)*256);
-    printf("Input String to search for anagrams:\n");
-    anag = userInput(anag);
-    printf("calculating...\n");
-    start = clock();
-    //qsort(vars->array1, vars->arraySize1, sizeof(char*), strCompare);
-    stop = clock();
-    timeSpent1 = (double)(stop - start)/CLOCKS_PER_SEC;
-    start = clock();
-    //totalInversion = presortAnagram(vars->array1, vars->arraySize1, anag);
-    stop = clock();
-    timeSpent2 = (double)(stop - start)/CLOCKS_PER_SEC;
-    printf("------------------------------------\n");
-    printf("Number of anagrams: %d\n", totalInversion);
-    printf("Sorting time: %f second\n", timeSpent1);
-    printf("Execution time: %f second\n", timeSpent2);
-    printf("------------------------------------\n");
-    free(anag);
-    return timeSpent2;
+  double start = 0, stop = 0, timeSpent = 0;
+  char* anag = calloc(256, sizeof(char)*256);
+  printf("Enter a key:  ");
+  anag = userInput(anag);
+  start = clock();
+  searchBSTGreedy(anag, vars->tree2);
+  stop = clock();
+  timeSpent = (double)(stop - start)/CLOCKS_PER_SEC;
+  printf("------------------------------------\n");
+  printf("Execution time: %f second\n", timeSpent);
+  printf("------------------------------------\n");
+  free(anag);
+  return timeSpent;
 }
 
 void print2D(int *arr, int size) {
@@ -159,14 +151,16 @@ int main(int argc, char** argv){
     getData(vars);
     qsort(vars->array1, vars->arraySize1, sizeof(Node*), cmpfunc);
     //printNodes(vars->array1, vars->arraySize1);
+    printf("Calculating main and root table...\n");
     int **cost = OptimalBST(vars->array1, vars->arraySize1);
     //printf("%d\n", cost[0][0 + vars->arraySize1 -1]);
 
     vars->tree = buildTree(cost[1], cost[0], vars->array1, vars->arraySize1, 0, vars->arraySize1 -1);
+    vars->tree2 = buildTreeGreedy(vars->array1, 0, vars->arraySize1 - 1);
     //printNodes(vars->array1, vars->arraySize1);
     for(;;){
         printf("1: Question 1: OptimalBST dynamic programming\n");
-        printf("2: Question 2\n");
+        printf("2: Question 2: OptimalBST greedy technique\n");
         //printf("5: Compare inversion algorithms\n");
         //printf("6: Compare convex hull algorithms\n");
         printf("3: Exit\n");
@@ -189,9 +183,6 @@ int main(int argc, char** argv){
             printf("Invalid input, enter number between 1-7.\n");
             printf("------------------------------------\n");
         }
-        //free(vars->array1);
-        //free(vars->array2);
-        //getData(vars);
     }
 
     //printNodes(vars->array1, vars->arraySize1);
@@ -223,4 +214,3 @@ int main(int argc, char** argv){
 
     return 0;
 }
-/*menu not part of assignemnt so not original*/
