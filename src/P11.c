@@ -1,8 +1,6 @@
 /*
 Name: Ali Bokhari
-ID: 0970498 / abokhari
-Date: March 21, 2020
-Assignment 4
+Date: March 21, 2019
 */
 
 #include "head.h"
