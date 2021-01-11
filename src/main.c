@@ -1,8 +1,6 @@
 /*
 Name: Ali Bokhari
-ID: 0970498 / abokhari
-Date: March 22, 2020
-Assignment 4
+Date: March 22, 2019
 */
 
 #include "head.h"
@@ -214,3 +212,4 @@ int main(int argc, char** argv){
 
     return 0;
 }
+/*Input menu not original*/
